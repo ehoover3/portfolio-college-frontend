@@ -66,8 +66,19 @@ function addMarkers() {
       .bindPopup(`<p1>${myMap.schools[i].name}</p1>`)
       .addTo(myMap.map);
   }
-  console.log(myMap.schools);
 }
+
+// 7. update map
+async function updateMap() {
+  // TO-DO:  reset/remove schools data & markers
+  let collegees = document.getElementById("colleges").value;
+  let data = await getSchoolsData(collegees);
+  myMap.schools = processSchoolsData(data);
+  addMarkers();
+}
+
+// 8. update costs
+function updateCosts() {}
 
 // event - window load
 window.onload = async () => {
@@ -79,14 +90,7 @@ window.onload = async () => {
 // event - submit button
 document.getElementById("submit").addEventListener("click", async (event) => {
   event.preventDefault();
-  let business = document.getElementById("business").value;
-  // let data = await getFoursquare(business);
-  let data = await getSchoolsData(business);
-  myMap.schools = processSchoolsData(data);
-  addMarkers();
+  updateMap();
 
-  console.log(myMap.coordinates);
-  console.log(myMap.map);
   console.log(myMap.schools);
-  console.log(myMap.markers);
 });
